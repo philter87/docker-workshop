@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: DockerWorkshop
 
   frontend:
-    image: nginx-front:0.1.0
+    image: frontend-radar:0.1.0
     ports:
       - 9502:80
   backend:
