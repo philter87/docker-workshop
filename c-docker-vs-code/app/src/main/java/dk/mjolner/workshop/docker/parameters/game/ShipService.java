@@ -1,13 +1,11 @@
 package dk.mjolner.workshop.docker.parameters.game;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShipService {
     private Map<String, Ship> ships;
+    private Timer aiTimer = new Timer();
 
     public ShipService() {
         ships = new HashMap<>();
@@ -25,6 +23,10 @@ public class ShipService {
     }
 
     public boolean move(String displayName, int x, int y) {
+        if (ships.size() == 0) {
+            createAiShip();
+        }
+
         if (!ships.containsKey(displayName)) {
             var newShip = new Ship(x, y, displayName);
             newShip.setLastMoveTime(LocalDateTime.now());
@@ -34,6 +36,25 @@ public class ShipService {
             var ship = ships.get(displayName);
             return ship.moveTo(x, y);
         }
+    }
+
+    private void createAiShip() {
+        ships.put("AI", new Ship(5, 5, "AI"));
+        aiTimer.cancel();
+        aiTimer = new Timer();
+
+        aiTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                var aiShip = ships.get("AI");
+                System.out.println("Move ai ship");
+                if(aiShip != null){
+                    var x = aiShip.getX() + (int) Math.round( 2 * Math.random() - 1);
+                    var y = aiShip.getY() + (int) Math.round( 2 * Math.random() - 1);
+                    aiShip.moveTo(x, y);
+                }
+            }
+        }, 0, 5000);
     }
 
     public boolean shoot(String displayName, int x, int y) {
@@ -66,5 +87,9 @@ public class ShipService {
 
     public Ship getShip(String displayName) {
         return ships.get(displayName);
+    }
+
+    public void reset() {
+        this.ships = new HashMap<>();
     }
 }

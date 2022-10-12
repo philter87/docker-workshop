@@ -2,7 +2,6 @@ package dk.mjolner.workshop.docker.parameters;
 
 import j2html.tags.DomContent;
 import j2html.tags.specialized.HeadTag;
-import j2html.tags.specialized.HtmlTag;
 import j2html.tags.specialized.LiTag;
 
 import static j2html.TagCreator.*;
@@ -11,6 +10,10 @@ public class Utils {
     public static LiTag bullet(String text, boolean isSuccessful) {
         var color = isSuccessful ? "background-color: #ABEBC6" : "background-color: #F5B7B1";
         return li(h3(span(text).withStyle(color)));
+    }
+
+    public static LiTag bullet(String text) {
+        return li(h3(span(text)));
     }
 
     public static HeadTag header() {

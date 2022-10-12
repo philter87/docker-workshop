@@ -10,6 +10,7 @@ public class Ship {
     private LocalDateTime lastHitTime;
     private long moveCount;
     private long hitCount;
+
     private int x;
     private int y;
     private final String displayName;
@@ -30,8 +31,12 @@ public class Ship {
     }
 
     public long getPoints(){
+        return getAgePoints() + moveCount + hitCount * 5;
+    }
+
+    public int getAgePoints() {
         var now = LocalDateTime.now();
-        return (int) (ChronoUnit.SECONDS.between(created, now) / 10.0) + moveCount + hitCount * 5;
+        return (int) (ChronoUnit.SECONDS.between(created, now) / 10.0);
     }
 
     public boolean moveTo(int newX, int newY) {
@@ -139,4 +144,10 @@ public class Ship {
     public String getDisplayName() {
         return displayName;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+
 }

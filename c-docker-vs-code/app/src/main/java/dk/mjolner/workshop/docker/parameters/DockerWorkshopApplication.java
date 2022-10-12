@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class DockerRunParametersApplication {
+public class DockerWorkshopApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DockerRunParametersApplication.class, args);
+        SpringApplication.run(DockerWorkshopApplication.class, args);
     }
 
 

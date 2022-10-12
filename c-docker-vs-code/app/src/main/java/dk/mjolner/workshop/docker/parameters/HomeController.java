@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static j2html.TagCreator.*;
 
 @RestController
@@ -28,14 +30,14 @@ public class HomeController {
     }
 
     @GetMapping(value = "/kill")
-    public RedirectView killApplication() {
+    public RedirectView killApplication(HttpServletRequest req) {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-
+                System.exit(1);
             }
         }, 1000);
-        System.exit(1);
+
         return new RedirectView("/");
     }
 }
