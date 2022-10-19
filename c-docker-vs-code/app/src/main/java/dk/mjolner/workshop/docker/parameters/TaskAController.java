@@ -26,11 +26,11 @@ public class TaskAController {
                 h3("The bullet points below are all red. When you use the correct parameters, they will turn green."),
                 ul(
                         Utils.bullet("Run the container with an environment variable: 'MY_ENV=HelloWorld'. The current value is : \'" + getMyEnv()  + "\'", isEnvironmentVariablePresent()),
-                        Utils.bullet("Limit to one cpu for the container. This is a way to isolate containers. Current cpu count: " + Runtime.getRuntime().availableProcessors(), isOneCpuCoreUsed()),
+                        Utils.bullet("Limit to one cpu for the container. This is a way to limit the resources of container. Current cpu count: " + Runtime.getRuntime().availableProcessors(), isOneCpuCoreUsed()),
                         Utils.bullet("The current user in the docker container is: '" + getUserName() + "'. It is generally a bad idea to use the 'root' user inside a docker container. The image was created like this, but it is wrong. Try to run the container with the user 'app-user'", isUserEqualToAppUser()),
                         Utils.bullet("You can define a hostname for the container. Run the container with the hostname 'app-host'. The current hostname is '" + getHostName() +"'", isHostnameAppHost()),
                         Utils.bullet("Run the docker container in privileged mode. This is generally a bad idea, because it allows the container to access parts of the host OS. Privileged mode is however required when you want to run docker inside docker.", isContainerRunningInPriviledgedMode()),
-                        Utils.bullet("There is a folder called 'shared-folder' in this repository. The shared folder should be mounted and mapped to the path /app/shared-folder in the container. You need to use absolute paths. The syntax is -v <absolute-path-on-host>:<absolute-path-in-container>. Hint: In powershell, you can use ${PWD} to get the current directory", isVolumeShared())
+                        Utils.bullet("There is a folder called 'shared-folder' in this docker-workshop repository. The shared folder should be mounted and mapped to the path /app/shared-folder in the container. You need to use absolute paths. The syntax is -v <absolute-path-on-host>:<absolute-path-in-container>. Hint: In powershell, you can use ${PWD} to get the current directory", isVolumeShared())
                 ),
                 div(a("Go back").withHref("/")),
                 div(a("Kill the application").withHref("/kill"))
@@ -87,7 +87,7 @@ public class TaskAController {
 
     private boolean isContainerRunningInPriviledgedMode() {
         var path = Paths.get("dev", "mem");
-        return Files.isRegularFile(path);
+        return Files.exists(path);
     }
 
     private boolean isUserEqualToAppUser(){

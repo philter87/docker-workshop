@@ -1,5 +1,7 @@
 # We use a gradle image.
 # Dockerfile is inspired by: https://codefresh.io/docs/docs/learn-by-example/java/gradle/
+# Build image: docker build -t philter87/docker-workshop .
+# Push image: docker image push philter87/docker-workshop
 FROM gradle:7.5-jdk17-alpine as build
 
 COPY --chown=grade:gradle . /home/gradle/src
