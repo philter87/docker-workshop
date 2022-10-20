@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  backend:
+    image: philter87/docker-workshop
+    ports:
+      - 9500:8080
+
+
+# You need to create two more services called 'db' and 'frontend'. 
+
+# For the database, you should use the official postgres image. You can read about it here: https://hub.docker.com/_/postgres. 
+# On the page, there is also an example on how to create a docker-compose.yml file. You will need to use "DockerWorkshop" as POSTGRES_PASSWORD.
+
+# For the frontend, you need to do a bit more work because we do not have an image. You should expose the frontend on port 9502.

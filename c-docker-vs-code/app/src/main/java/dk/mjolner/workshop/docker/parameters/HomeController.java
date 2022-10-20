@@ -40,4 +40,9 @@ public class HomeController {
 
         return new RedirectView("/");
     }
+
+    @GetMapping(value = "/ping")
+    public String ping(){
+        return "pong";
+    }
 }

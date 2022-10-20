@@ -1,0 +1,26 @@
+# docker login azure
+# docker context create aci aci-docker-workshop --subscription-id 816fd696-e918-4c8a-b79e-e94153488a30
+# docker context ls
+# docker context use aci-docker-workshop
+# docker compose up
+# docker context use default
+
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: DockerWorkshop
+    ports:
+      - 5432:5432
+
+  frontend:
+    image: philter87/frontend-radar
+    ports:
+      - 80:80
+  backend:
+    image: philter87/docker-workshop
+    ports:
+      - 8080:8080

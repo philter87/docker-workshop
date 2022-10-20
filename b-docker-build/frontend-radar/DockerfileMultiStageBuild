@@ -1,5 +1,5 @@
 # run: docker build -t philter87/frontend-radar -f DockerfileMultiStageBuild .
-
+# run: docker image push philter87/frontend-radar
 FROM node:18.10.0 as build
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]

@@ -1,20 +1,17 @@
-# Use postgres/example user/password credentials
+
 version: '3.1'
 
 services:
   db:
     image: postgres
-    restart: always
-    ports:
-      - 9501:5432
     environment:
       POSTGRES_PASSWORD: DockerWorkshop
-
   frontend:
-    image: frontend-radar
+    image: philter87/frontend-radar
     ports:
       - 9502:80
   backend:
     image: philter87/docker-workshop
     ports:
       - 9500:8080
+

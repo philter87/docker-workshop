@@ -36,9 +36,10 @@ function App() {
 
     useEffect(() => {
         if (url == failed) {
-            fetchAndSetShips('http://localhost:8080');
+            const hostname = location.hostname;
+            fetchAndSetShips('http://' + hostname + ':8080');
             fetchAndSetShips('http://backend:8080');
-            fetchAndSetShips('http://localhost:9500');
+            fetchAndSetShips('http://' + hostname + ':9500');
         }
         const handler = setInterval(async () => {
             await fetchAndSetShips(url);

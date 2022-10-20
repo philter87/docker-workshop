@@ -17,7 +17,7 @@ import static j2html.TagCreator.a;
 
 @RestController
 public class TaskBController {
-    private RestTemplate restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(100)).build();
+    private RestTemplate restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(100)).setReadTimeout(Duration.ofMillis(100)).build();
 
     @GetMapping(value = "b", produces = MediaType.TEXT_HTML_VALUE)
     public String bPage() throws IOException {
@@ -26,19 +26,24 @@ public class TaskBController {
                 h1("2. Exercises: 'docker-build' and 'docker-compose'"),
                 h3("A 'modern' webpage usually require three things: a database, a backend and a frontend."),
                 h3("In this exercise, we need to create a webpage based on three images/containers and they need to communicate together."),
-                h3("Lets say that this container (docker-workshop) is the backend (yes, a very visual backend). Now we need to 'connect' to a database and a frontend. (Refresh the page when you have completed the task)"),
+                h3("It would be inconvenient, to use the 'docker run'-command three times to get everything up and running. Therefore we want to use 'docker-compose'. 'docker-compose' can run several containers with a single command (docker-compose up) and a docker-compose.yml file."),
+                h3("Lets say that this container (docker-workshop) is the backend (yes, a very visual backend) and then we also need a database and a frontend. Lets start with the backend: "),
                 ul(
-                        Utils.bullet("The database: Find the official postgres image in DockerHub and try to follow the instructions. The backend expects to find a postgres database running on port 9501 (default port is 5432) with the password 'DockerWorkshop'", isDatabaseRunning()),
-                        Utils.bullet("The frontend: The frontend requires a bit more work. We first need to build the image with a Dockerfile. The command 'docker build --tag frontend-radar .' build an image with the name frontend-radar. This is a frontend app, so the image should contain Nginx and some static html files. You can find the static files the folder 'frontend-radar/dist' in the repository and a empty Dockerfile with some instructions on how to create a image with Nginx and the static files. The backend expects to see a frontend running on port 9502 (the default nginx is 80).", isFrontEndRunning()),
-                        Utils.bullet("Connecting everything together: Everything is actually connected together now, but it seems a bit complicated to execute several 'docker run' commands to debug the application locally. This is where 'docker-compose' becomes relevant. It allows you to run all the containers with a single command ('docker-compose up') and a bit of configuration. The configuration is contained in a file called docker-compose.yml - there is an empty one in the git repository. You need to finish the docker-compose.yml file - there is a great example on the postgres DockerHub page: https://hub.docker.com/_/postgres. (Use the service names: frontend, backend and db for this bullet point to turn green)", isDockerComposeRunning())
+                        Utils.bullet("The backend. The image 'philter87/docker-workshop' is the backend. We need to run this with docker-compose. Luckily, there is already a 'docker-compose.yml' file in the folder 'b-docker-build'. Go to the folder in a terminal and write 'docker-compose up'", isBackendWorking()),
+                        Utils.bullet("The database. Next you will need to add the database configuration to the docker-compose.yml file. Try and find the official postgres image on DockerHub. Somewhere on the page, there is a docker-compose example. Use that with some minor changes. The password should be 'DockerWorkshop' and the service should be called 'db'.", isDatabaseRunning()),
+                        Utils.bullet("The frontend. The frontend also needs to be added to the docker-compose.yml file. The frontend container requires a bit more work, because we have no image and therefore we need to create an image with an Dockerfile. You can find an incomplete Dockerfile in the repository 'b-docker-build/Dockerfile' - the file contains some hints. The image should be based on the official dockerhub nginx-image and then we need to add (or COPY) some static html files into the image. The static files are located in the folder 'b-docker-build/frontend-radar/dist'. When the Dockerfile is complete, you can build the image with 'docker build --tag frontend-radar .', which creates a image called 'frontend-radar'. For this to bullet point to turn green, the frontend must publish port 9502 (the default nginx is 80) and the service needs be called 'frontend'. Visit the page at  http://localhost:9502' to see the result.", isFrontEndRunning())
                 ),
                 div(a("Go back").withHref("/")),
                 div(a("Kill the application").withHref("/kill"))
         );
     }
 
+    private boolean isBackendWorking(){
+        return isEndpointWorking("http://backend:8080");
+    }
+
     private boolean isFrontEndRunning() {
-        return isEndpointWorking("http://localhost:9502") || isEndpointWorking("http://frontend:80");
+        return isEndpointWorking("http://frontend:80");
     }
 
     private boolean isDockerComposeRunning(){
@@ -56,7 +61,7 @@ public class TaskBController {
     }
 
     private boolean isDatabaseRunning() {
-        return isDatabaseRunningAt("localhost:9501") || isDatabaseRunningAt("db:5432");
+        return isDatabaseRunningAt("db:5432");
     }
 
     private boolean isDatabaseRunningAt(String url){
