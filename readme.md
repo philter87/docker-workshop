@@ -5,10 +5,10 @@ This is a docker workshop. The workshop is divided in 4 parts:
 You need to run this command to get started:
 
 ```bash
-docker run -p 9500:8080 philter87/docker-workshop
+docker run -p 9111:8080 philter87/docker-workshop
 ```
 
-Go to the page http://localhost:9500 - the exercises are described on the page.
+Go to the page http://localhost:9111 - the exercises are described on the page.
 
 You should clone this repository because some exercises requires you to have files locally. 
 
