@@ -17,7 +17,10 @@ import static j2html.TagCreator.a;
 
 @RestController
 public class TaskBController {
-    private RestTemplate restTemplate = new RestTemplateBuilder().setConnectTimeout(Duration.ofMillis(100)).setReadTimeout(Duration.ofMillis(100)).build();
+    private RestTemplate restTemplate = new RestTemplateBuilder()
+            .setConnectTimeout(Duration.ofMillis(100))
+            .setReadTimeout(Duration.ofMillis(100))
+            .build();
 
     @GetMapping(value = "b", produces = MediaType.TEXT_HTML_VALUE)
     public String bPage() throws IOException {
@@ -51,10 +54,13 @@ public class TaskBController {
     }
 
     private boolean isEndpointWorking(String url){
+        var start = System.currentTimeMillis();
         try {
             var response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+            System.out.println("TimeReq: " + (System.currentTimeMillis() - start + ", " + url));
             return response.getStatusCode().is2xxSuccessful();
         } catch (Exception e){
+            System.out.println("TimeReq: " + (System.currentTimeMillis() - start + ", " + url));
             System.out.println("Unable to connect to frontend with message: " + e.getMessage());
             return false;
         }
@@ -67,7 +73,8 @@ public class TaskBController {
     private boolean isDatabaseRunningAt(String url){
         var start = System.currentTimeMillis();
         try {
-            var conn = DriverManager.getConnection("jdbc:postgresql://" + url + "/postgres?user=postgres&password=DockerWorkshop");
+            DriverManager.setLoginTimeout(1);
+            var conn = DriverManager.getConnection("jdbc:postgresql://" + url + "/postgres?user=postgres&password=DockerWorkshop&loginTimeout=1");
             System.out.println("Time0: " + (System.currentTimeMillis() - start));
             var isValid = conn.isValid(100);
             System.out.println("Time: " + (System.currentTimeMillis() - start));

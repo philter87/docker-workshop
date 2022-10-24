@@ -25,7 +25,7 @@ public class Exercise {
         // Get all ships. You can use this
         // var ships = restTemplate.getForObject(BaseUrl + "/game/score", Ship[].class);
 
-        return true;
+        return false;
     }
 
 }
