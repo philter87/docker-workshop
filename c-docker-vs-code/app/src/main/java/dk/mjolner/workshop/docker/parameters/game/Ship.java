@@ -13,8 +13,12 @@ public class Ship {
 
     private int x;
     private int y;
-    private final String displayName;
-    private final String color;
+    private String displayName;
+    private String color;
+
+    public Ship() {
+
+    }
 
     public Ship(int x, int y, String displayName) {
         this.x = x;

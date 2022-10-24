@@ -31,7 +31,8 @@ public class TaskCController {
                         Utils.bullet("Open VS code, press 'F1' and then select 'Dev Container: Open folder in container ' (or Remote Container: Open folder in container). Select the folder: 'c-docker-vs-code/app'. Now you need to select several options: 'From a predefined container configuration', 'Java', '17-bullseye', 'node lts', 'Install Gradle', '0 selected'. Now you need to wait while for dev container to start up. It will also ask you to install an extension and you should accept this - it is only installed within the container."),
                         Utils.bullet("While you wait, you can take a look at the folder called '.devcontainer' which was created by VS code. It contains a Dockerfile and a devcontainer.json file. See if you can figure out what it means"),
                         Utils.bullet("Go to the class 'DockerWorkshopApplication' and see if you can run the application. The port is automatically published to 8080, so you can view result here: 'http://localhost:8080'. (If you have issues running java it might help to press F1 --> 'Java: Clean Java Language Server Workspace')", isRunningOnPort8080(req)),
-                        Utils.bullet("Now we will play 'The Radar Game' together. The endpoint '/exercise' is called whenever this page is loaded/refreshed. The endpoint is not implemented correctly so this is up to you - you can find the code in the class called 'Exercise'. Instead of calling localhost:8080, you should call a remote url which is also called by your colleagues (This should be given to you by the instructur). Now you need to get as many points as possible (remember to put in your name)", isExerciseEndpointImplemented())
+                        Utils.bullet("Open the class called 'Exercise', where you will find the 'exercise()'-method. This is executed whenever you call 'http://localhost:8080/exercise' (or when this page is refreshed). Start by return 'true' instead of false. This will make this turn green", isExerciseEndpointImplemented()),
+                        Utils.bullet("Now we will play 'The Radar Game' together. You need to write some more code to win. You should change 'baseUrl' to 'http://20.223.122.66:8080' instead of 'http://localhost:8080'. Rerun the application and you should then appear in the shared radar game. Adjust the alogrithm to win the game.")
                 ),
                 div(a("Go back").withHref("/")),
                 div(a("Kill the application").withHref("/kill"))
@@ -44,13 +45,8 @@ public class TaskCController {
 
     public boolean isExerciseEndpointImplemented(){
         var restTemplate = new RestTemplate();
-        try {
-            var result = restTemplate.getForObject("http://localhost:8080/exercise", String.class);
-            return true;
-        } catch(Exception e) {
-            System.out.println("Failed to call the exercise endpoint" + e.getMessage());
-            return false;
-        }
+        var result =  restTemplate.getForObject("http://localhost:8080/exercise", Boolean.class);
+        return (boolean) result;
     
     }
 }
