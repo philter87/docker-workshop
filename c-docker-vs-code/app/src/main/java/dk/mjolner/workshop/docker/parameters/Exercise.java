@@ -22,7 +22,7 @@ public class Exercise {
         // SHOOTING WITH SHIP. Allowed once every five second. Gives 5 points.
         // restTemplate.getForObject(BaseUrl + "/game/shoot?x=" + x + "&y=" + y + "&displayName=" + UserDisplayName, String.class);
 
-        // Get all ships. You can use this
+        // GETTING SHIP COORDINATES
         // var ships = restTemplate.getForObject(BaseUrl + "/game/score", Ship[].class);
 
         return false;
